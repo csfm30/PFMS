@@ -1,0 +1,25 @@
+app:
+  host: "localhost"
+  port: ":7000"
+  port_dev: ":7001"
+
+pg:
+  host: "127.0.0.1"
+  port: "5432"
+  username: "postgres"
+  password: "mysecretpassword"
+  name: "postgres"
+
+aes:
+  aes_key: "i9P/Cwo+ywKPcURoSO+sYLB8q5D8ghCIMI7R6CkjZllpxxtlCQqWYHVWLOHIKAbU"
+  
+auth:
+  access: "U2FsdGVkX1+kVtnfsfC3yyHt5Fubx9ghgz9E/k/jfFw="
+  refresh: "c6c9a9c9f30cdbbb0eacdc44aa8c66de"
+
+
+cache:
+  host: "localhost"
+  port: "6379"
+  db: "0"
+
