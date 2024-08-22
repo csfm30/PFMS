@@ -54,7 +54,7 @@ func RegisterUser(c *fiber.Ctx) error {
 	dataUser := modelsPg.User{
 		Username:     requestRegisterUser.Username,
 		PasswordHash: passwordEncrypt,
-		Email:        "not set" + passwordEncrypt,
+		Email:        "not set:" + passwordEncrypt,
 		IsSetData:    false,
 	}
 

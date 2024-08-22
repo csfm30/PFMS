@@ -72,7 +72,7 @@ func initConfig() {
 	switch os.Getenv("ENV") {
 	case "":
 		os.Setenv("ENV", "dev")
-		viper.SetConfigName("config")
+		viper.SetConfigName("config_dev")
 	default:
 		viper.SetConfigName("config")
 	}
