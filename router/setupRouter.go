@@ -30,6 +30,7 @@ func SetUpRouter(app *fiber.App) {
 	v1.Post("/delete_expense_by_name", middleware.AuthJwt(), expensesource.DeleteExpenseSourceFromName)
 
 	v1.Post("/add_transaction", middleware.AuthJwt(), transaction.AddTransaction)
+	v1.Get("/getAllTransactions", middleware.AuthJwt(), transaction.GetAllTransactions)
 
 	v1.Post("/add_recurring_period", middleware.AuthJwt(), recurringperiod.AddRecurringPeriod)
 	v1.Post("/delete_recurring_period", middleware.AuthJwt(), recurringperiod.DeleteCurringPeriod)
