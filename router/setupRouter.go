@@ -4,6 +4,7 @@ import (
 	"pfms/api/account"
 	incomesource "pfms/api/income_source"
 	recurringperiod "pfms/api/recurring_period"
+	recurringtransactions "pfms/api/recurring_transactions"
 	"pfms/api/transaction"
 
 	expensesource "pfms/api/expense_source"
@@ -32,5 +33,7 @@ func SetUpRouter(app *fiber.App) {
 
 	v1.Post("/add_recurring_period", middleware.AuthJwt(), recurringperiod.AddRecurringPeriod)
 	v1.Post("/delete_recurring_period", middleware.AuthJwt(), recurringperiod.DeleteCurringPeriod)
+
+	v1.Post("/add_recurrung_transaction", middleware.AuthJwt(), recurringtransactions.AddRecurringTransaction)
 
 }
