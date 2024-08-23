@@ -45,6 +45,7 @@ func AddIncomeSource(c *fiber.Ctx) error {
 		Name:        requestAddIncome.Name,
 		Description: requestAddIncome.Description,
 	}
+
 	if err := db.Where("name = ?", requestAddIncome.Name).FirstOrCreate(&incomeModel).Error; err != nil {
 		logs.Error(err)
 		return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
