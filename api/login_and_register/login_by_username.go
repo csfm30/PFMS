@@ -61,13 +61,31 @@ func LoginWithUsername(c *fiber.Ctx) error {
 	if PassworDecrypted != requestLoginUser.Password {
 		return utility.ResponseError(c, fiber.StatusOK, "password is not correct")
 	}
+	userAccessToken := ""
+	userRefreshToken := ""
+	if getUser.Role == "user" {
+		userAccessToken, userRefreshToken, err = middleware.CreateAuthToken(os.Getenv("ENV"), strconv.Itoa(int(getUser.ID)), getUser.Role)
+		if err != nil {
+			logs.Error(err)
+			return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+		}
+	} else if getUser.Role == "admin" {
+		userAccessToken, userRefreshToken, err = middleware.CreateAuthAdminToken(os.Getenv("ENV"), strconv.Itoa(int(getUser.ID)), getUser.Role)
+		if err != nil {
+			logs.Error(err)
+			return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+		}
+	} else {
+		userAccessToken, userRefreshToken, err = middleware.CreateAuthToken(os.Getenv("ENV"), strconv.Itoa(int(getUser.ID)), getUser.Role)
+		if err != nil {
+			logs.Error(err)
+			return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
+		}
+		db.Table("users").Where("id = ?", strconv.Itoa(int(getUser.ID))).Update("role", "user")
+	}
 
 	//authJwt
-	userAccessToken, userRefreshToken, err := middleware.CreateAuthToken(os.Getenv("ENV"), strconv.Itoa(int(getUser.ID)), getUser.Role)
-	if err != nil {
-		logs.Error(err)
-		return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
-	}
+
 	responseLoginUser := responseLoginUser{
 		Username:     getUser.Username,
 		Email:        getUser.Email,

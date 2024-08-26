@@ -13,30 +13,30 @@ import (
 	"gorm.io/gorm"
 )
 
-type requestRegisterUser struct {
+type requestRegisterAdmin struct {
 	Username string `json:"username" form:"username"`
 	Password string `json:"password" form:"password"`
 }
 
-func RegisterUser(c *fiber.Ctx) error {
+func RegisterAdmin(c *fiber.Ctx) error {
 	db := database.DBConn
-	requestRegisterUser := new(requestRegisterUser)
+	requestRegisterAdmin := new(requestRegisterAdmin)
 
 	//CheckInput
-	if err := c.BodyParser(requestRegisterUser); err != nil {
+	if err := c.BodyParser(requestRegisterAdmin); err != nil {
 		logs.Error(err)
 		return utility.ResponseError(c, fiber.StatusBadRequest, err.Error())
 	}
 
-	if requestRegisterUser.Username == "" || requestRegisterUser.Password == "" {
+	if requestRegisterAdmin.Username == "" || requestRegisterAdmin.Password == "" {
 		return utility.ResponseError(c, fiber.StatusBadRequest, "parameter_missing")
 	}
 
-	requestRegisterUser.Username = strings.TrimSpace(requestRegisterUser.Username)
-	requestRegisterUser.Password = strings.TrimSpace(requestRegisterUser.Password)
+	requestRegisterAdmin.Username = strings.TrimSpace(requestRegisterAdmin.Username)
+	requestRegisterAdmin.Password = strings.TrimSpace(requestRegisterAdmin.Password)
 
 	getCheckUser := modelsPg.User{}
-	if err := db.Where("username = ?", requestRegisterUser.Username).Find(&getCheckUser).Error; err != nil {
+	if err := db.Where("username = ?", requestRegisterAdmin.Username).Find(&getCheckUser).Error; err != nil {
 		if !errors.Is(err, gorm.ErrRecordNotFound) {
 			return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 		}
@@ -46,17 +46,17 @@ func RegisterUser(c *fiber.Ctx) error {
 	}
 
 	//Encrypt Password
-	passwordEncrypt, err := utility.AESEncrypt(viper.GetString("aes.aes_key"), requestRegisterUser.Password)
+	passwordEncrypt, err := utility.AESEncrypt(viper.GetString("aes.aes_key"), requestRegisterAdmin.Password)
 	if err != nil {
 		return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}
 
 	dataUser := modelsPg.User{
-		Username:     requestRegisterUser.Username,
+		Username:     requestRegisterAdmin.Username,
 		PasswordHash: passwordEncrypt,
 		Email:        "not set:" + passwordEncrypt,
 		IsSetData:    false,
-		Role:         "user",
+		Role:         "admin",
 	}
 
 	//Save

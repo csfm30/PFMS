@@ -2,6 +2,7 @@ package router
 
 import (
 	"pfms/api/account"
+
 	"pfms/api/users"
 	"pfms/middleware"
 
@@ -14,7 +15,17 @@ func SetUpRouter(app *fiber.App) {
 	v1 := apiRoutes.Group("/v1")
 
 	setRouteLogin(v1)
+
 	v1.Get("/getAllAccount", middleware.AuthJwt(), account.GetAllAccount)
 	v1.Get("/getAllUsers", middleware.AuthJwt(), users.GetAllUsers)
+
+	setRouteIncome(v1)
+	setRouteExpense(v1)
+
+	setRouteTransacion(v1)
+
+	setRouteRecurrencePeriod(v1)
+
+	setRouteRecurringTransaction(v1)
 
 }
