@@ -44,17 +44,22 @@ func GetAllTransactions(c *fiber.Ctx) error {
 	}
 
 	for i, v := range responseGetAllTransactions {
-		expenseModel := ""
+		exportModel := ""
 		if v.Type == "expense" {
 			db.Table("transactions").
-				Select("expense_categories.description").
+				Select("expense_categories.name").
 				Joins("Join expense_categories ON expense_categories.id = transactions.source_id").
-				Find(&expenseModel)
+				Find(&exportModel)
+		} else if v.Type == "income" {
+			db.Table("transactions").
+				Select("income_sources.name").
+				Joins("Join income_sources ON income_sources.id = transactions.source_id").
+				Find(&exportModel)
 		}
-		responseGetAllTransactions[i].Source = expenseModel
+		responseGetAllTransactions[i].Source = exportModel
 	}
 
-	if err := database.CachingCtx().Set("all_transactions", &responseGetAllTransactions, time.Minute*2); err != nil {
+	if err := database.CachingCtx().Set("all_transactions", &responseGetAllTransactions, time.Minute*1); err != nil {
 		logs.Error(err)
 	}
 

@@ -56,6 +56,7 @@ func RegisterUser(c *fiber.Ctx) error {
 		PasswordHash: passwordEncrypt,
 		Email:        "not set:" + passwordEncrypt,
 		IsSetData:    false,
+		Role:         "user",
 	}
 
 	//Save

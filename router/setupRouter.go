@@ -2,12 +2,7 @@ package router
 
 import (
 	"pfms/api/account"
-	incomesource "pfms/api/income_source"
-	recurringperiod "pfms/api/recurring_period"
-	recurringtransactions "pfms/api/recurring_transactions"
-	"pfms/api/transaction"
 
-	expensesource "pfms/api/expense_source"
 	"pfms/api/users"
 	"pfms/middleware"
 
@@ -20,21 +15,17 @@ func SetUpRouter(app *fiber.App) {
 	v1 := apiRoutes.Group("/v1")
 
 	setRouteLogin(v1)
+
 	v1.Get("/getAllAccount", middleware.AuthJwt(), account.GetAllAccount)
 	v1.Get("/getAllUsers", middleware.AuthJwt(), users.GetAllUsers)
 
-	v1.Post("/add_income", middleware.AuthJwt(), incomesource.AddIncomeSource)
-	v1.Post("/delete_income_by_name", middleware.AuthJwt(), incomesource.DeleteIncomeSourceFromName)
+	setRouteIncome(v1)
+	setRouteExpense(v1)
 
-	v1.Post("/add_expense", middleware.AuthJwt(), expensesource.AddExpenseSource)
-	v1.Post("/delete_expense_by_name", middleware.AuthJwt(), expensesource.DeleteExpenseSourceFromName)
+	setRouteTransacion(v1)
 
-	v1.Post("/add_transaction", middleware.AuthJwt(), transaction.AddTransaction)
-	v1.Get("/getAllTransactions", middleware.AuthJwt(), transaction.GetAllTransactions)
+	setRouteRecurrencePeriod(v1)
 
-	v1.Post("/add_recurring_period", middleware.AuthJwt(), recurringperiod.AddRecurringPeriod)
-	v1.Post("/delete_recurring_period", middleware.AuthJwt(), recurringperiod.DeleteCurringPeriod)
-
-	v1.Post("/add_recurrung_transaction", middleware.AuthJwt(), recurringtransactions.AddRecurringTransaction)
+	setRouteRecurringTransaction(v1)
 
 }
