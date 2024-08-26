@@ -1,14 +1,15 @@
 package router
 
 import (
-	incomesource "pfms/api/income_source"
+	"pfms/api/transaction"
 	"pfms/middleware"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func setRouteTransacion(v1 fiber.Router) {
-	v1.Post("/add_income", middleware.AuthJwt(), incomesource.AddIncomeSource)
-	v1.Post("/delete_income_by_name", middleware.AuthJwt(), incomesource.DeleteIncomeSourceFromName)
+	v1.Post("/add_transaction", middleware.AuthJwt(), transaction.AddTransaction)
+	v1.Get("/getAllTransactions", middleware.AuthJwt(), transaction.GetAllTransactions)
+	v1.Post("delete_transaction_by_id", middleware.AuthJwt(), transaction.DeleteTransaction)
 
 }
