@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func CreateAuthAdminToken(env string, userId string, role string) (accessToken string, refreshToken string, err error) {
+func CreateAuthAdminToken(env string, userId string, role string) (accessToken string, err error) {
 	// Create AccessToken
 	token := jwt.New(jwt.SigningMethodHS256)
 	refId := uuid.NewV4()
@@ -29,13 +29,13 @@ func CreateAuthAdminToken(env string, userId string, role string) (accessToken s
 	claims["exp"] = time.Now().Add(time.Minute * time.Duration(sessionTimeAccess)).Unix()
 
 	// Generate encoded token and send it as response.
-	accessToken, err = token.SignedString([]byte(viper.GetString("auth.access")))
+	accessToken, err = token.SignedString([]byte(viper.GetString("auth.admin")))
 	if err != nil {
 		logs.Error(err)
-		return "create_token_fail", "", err
+		return "create_token_fail", err
 	}
 
-	return accessToken, refreshToken, err
+	return accessToken, err
 }
 
 func AdminAuth() fiber.Handler {

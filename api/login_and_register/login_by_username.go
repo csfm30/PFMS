@@ -70,7 +70,7 @@ func LoginWithUsername(c *fiber.Ctx) error {
 			return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 		}
 	} else if getUser.Role == "admin" {
-		userAccessToken, userRefreshToken, err = middleware.CreateAuthAdminToken(os.Getenv("ENV"), strconv.Itoa(int(getUser.ID)), getUser.Role)
+		userAccessToken, err = middleware.CreateAuthAdminToken(os.Getenv("ENV"), strconv.Itoa(int(getUser.ID)), getUser.Role)
 		if err != nil {
 			logs.Error(err)
 			return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
