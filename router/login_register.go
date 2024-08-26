@@ -9,5 +9,6 @@ import (
 func setRouteLogin(v1 fiber.Router) {
 	v1.Post("/register", loginregister.RegisterUser)
 	v1.Post("/login_by_username", loginregister.LoginWithUsername)
+	v1.Post("/register_admin", loginregister.RegisterAdmin)
 
 }
