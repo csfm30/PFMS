@@ -18,6 +18,7 @@ func SetUpRouter(app *fiber.App) {
 
 	v1.Get("/getAllAccount", middleware.AuthJwt(), account.GetAllAccount)
 	v1.Get("/getAllUsers", middleware.AuthJwt(), users.GetAllUsers)
+	v1.Delete("/deleteUser", middleware.AdminAuth(), users.DeleteUser)
 
 	setRouteIncome(v1)
 	setRouteExpense(v1)
