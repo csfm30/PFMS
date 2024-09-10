@@ -15,8 +15,7 @@ type User struct {
 	IsSetData    bool      `json:"is_set_data"`
 	IsLogin      bool      `json:"is_login"`
 
-	IncomeSources         []IncomeSource         `gorm:"foreignKey:UserId"`
-	ExpenseCategories     []ExpenseCategory      `gorm:"foreignKey:UserId"`
-	Transactions          []Transaction          `gorm:"foreignKey:UserId"`
-	RecurringTransactions []RecurringTransaction `gorm:"foreignKey:UserId"`
+	IncomeSources     []IncomeSource    `gorm:"foreignKey:UserId"`
+	ExpenseCategories []ExpenseCategory `gorm:"foreignKey:UserId"`
+	Transactions      []Transaction     `gorm:"foreignKey:UserId"`
 }

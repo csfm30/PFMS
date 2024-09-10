@@ -24,8 +24,4 @@ func SetUpRouter(app *fiber.App) {
 
 	setRouteTransacion(v1)
 
-	setRouteRecurrencePeriod(v1)
-
-	setRouteRecurringTransaction(v1)
-
 }

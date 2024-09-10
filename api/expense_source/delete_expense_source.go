@@ -42,6 +42,10 @@ func DeleteExpenseSourceFromName(c *fiber.Ctx) error {
 		logs.Error(err)
 		return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}
+
+	if responseDeleteModel.Name == "" {
+		return utility.ResponseSuccess(c, "You don't have permission to access or Name don't exist")
+	}
 	utility.ResetAutoIncrement(db, "expense_categories", "id")
 
 	return utility.ResponseSuccess(c, responseDeleteModel)

@@ -42,6 +42,10 @@ func DeleteIncomeSourceFromName(c *fiber.Ctx) error {
 		logs.Error(err)
 		return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}
+
+	if responseDeleteModel.Name == "" {
+		return utility.ResponseSuccess(c, "You don't have permission to access or Name don't exist")
+	}
 	utility.ResetAutoIncrement(db, "income_sources", "id")
 
 	return utility.ResponseSuccess(c, responseDeleteModel)

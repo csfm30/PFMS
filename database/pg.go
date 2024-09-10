@@ -68,7 +68,12 @@ func InitDatabase() {
 	fmt.Println("Database connection successfully")
 
 	if err := DBConn.AutoMigrate(
-		&modelsPg.Account{}, &modelsPg.User{}, &modelsPg.IncomeSource{}, &modelsPg.ExpenseCategory{}, &modelsPg.Transaction{}, &modelsPg.RecurringTransaction{}, &modelsPg.RecurrencePeriod{},
+		&modelsPg.Account{},
+		&modelsPg.User{},
+		&modelsPg.IncomeSource{},
+		&modelsPg.ExpenseCategory{},
+		&modelsPg.Transaction{},
+		&modelsPg.Saving{},
 	); err != nil {
 		log.Error(err)
 	}
