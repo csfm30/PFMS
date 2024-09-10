@@ -74,7 +74,7 @@ func InitDatabase() {
 		&modelsPg.ExpenseCategory{},
 		&modelsPg.Transaction{},
 		&modelsPg.Saving{},
-		&modelsPg.Invesment{},
+		&modelsPg.Investment{},
 		&modelsPg.Budget{},
 	); err != nil {
 		log.Error(err)

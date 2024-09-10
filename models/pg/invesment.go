@@ -1,6 +1,6 @@
 package models
 
-type Invesment struct {
+type Investment struct {
 	ID                  uint    `gorm:"primaryKey;autoIncrement"`
 	Name                string  `gorm:"not null" json:"name"`
 	InitialAmount       float64 `gorm:"type:decimal(10,2);not null" json:"initial_amount"`
