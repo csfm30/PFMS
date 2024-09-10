@@ -15,10 +15,11 @@ import (
 )
 
 type requestAddTransaction struct {
-	Type        string  `gorm:"size:10;not null" json:"type"`
-	Amount      float64 `gorm:"type:decimal(10,2);not null" json:"amount"`
-	SourceID    *uint   `json:"source_id"` // Ensure correct tag here
-	Description string  `gorm:"type:text" json:"description"`
+	Type              string  `gorm:"size:10;not null" json:"type"`
+	Amount            float64 `gorm:"type:decimal(10,2);not null" json:"amount"`
+	IncomeSourceID    *uint   `json:"income_source_id"`    // Foreign key to IncomeSource, nullable
+	ExpenseCategoryID *uint   `json:"expense_category_id"` // Foreign key to ExpenseCategory, nullable
+	Description       string  `gorm:"type:text" json:"description"`
 }
 
 func AddTransaction(c *fiber.Ctx) error {
@@ -35,26 +36,27 @@ func AddTransaction(c *fiber.Ctx) error {
 		logs.Error(err)
 		return utility.ResponseError(c, fiber.StatusBadRequest, err.Error())
 	}
-	if requestAddTransaction.SourceID == nil {
+	if requestAddTransaction.IncomeSourceID == nil || requestAddTransaction.ExpenseCategoryID == nil {
 		fmt.Println("SourceID is nil")
 	} else {
-		fmt.Printf("SourceID: %d\n", *requestAddTransaction.SourceID)
+		fmt.Printf("SourceID: %d\n", *requestAddTransaction.IncomeSourceID)
 	}
 
 	requestAddTransaction.Description = strings.TrimSpace(requestAddTransaction.Description)
 	requestAddTransaction.Type = strings.TrimSpace(requestAddTransaction.Type)
 
-	if requestAddTransaction.Type == "" || requestAddTransaction.Description == "" || requestAddTransaction.Amount == 0 || requestAddTransaction.SourceID == nil {
+	if requestAddTransaction.Type == "" || requestAddTransaction.Description == "" || requestAddTransaction.Amount == 0 || requestAddTransaction.IncomeSourceID == nil || requestAddTransaction.ExpenseCategoryID == nil {
 		return utility.ResponseError(c, fiber.StatusBadRequest, "parameter_missing")
 	}
 
 	transactionModel := modelsPg.Transaction{
-		UserId:      userIdUint,
-		Type:        requestAddTransaction.Type,
-		Description: requestAddTransaction.Description,
-		SourceID:    requestAddTransaction.SourceID,
-		Amount:      requestAddTransaction.Amount,
-		Date:        time.Now(),
+		UserId:            userIdUint,
+		Type:              requestAddTransaction.Type,
+		Description:       requestAddTransaction.Description,
+		IncomeSourceID:    requestAddTransaction.IncomeSourceID,
+		ExpenseCategoryID: requestAddTransaction.ExpenseCategoryID,
+		Amount:            requestAddTransaction.Amount,
+		Date:              time.Now(),
 	}
 	if err := db.Create(&transactionModel).Error; err != nil {
 		logs.Error(err)
