@@ -24,4 +24,6 @@ func SetUpRouter(app *fiber.App) {
 
 	setRouteTransacion(v1)
 
+	setRouteSaving(v1)
+
 }
