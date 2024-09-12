@@ -37,7 +37,7 @@ func DeleteSavingFromName(c *fiber.Ctx) error {
 		return utility.ResponseError(c, fiber.StatusBadRequest, "parameter_missing")
 	}
 	var responseDeleteModel modelsPg.Saving
-	if err := db.Where("name = ? and id = ?", requestDeleteFromName.Name, userId).Find(&responseDeleteModel).Delete(modelsPg.Saving{}).Error; err != nil {
+	if err := db.Where("name = ? and user_id = ?", requestDeleteFromName.Name, userId).Find(&responseDeleteModel).Delete(modelsPg.Saving{}).Error; err != nil {
 		logs.Error(err)
 		return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}

@@ -18,4 +18,6 @@ type User struct {
 	IncomeSources     []IncomeSource    `gorm:"foreignKey:UserId"`
 	ExpenseCategories []ExpenseCategory `gorm:"foreignKey:UserId"`
 	Transactions      []Transaction     `gorm:"foreignKey:UserId"`
+	Savings           []Saving          `gorm:"foreignKey:UserId"`
+	Investments       []Investment      `gorm:"foreignKey:UserId"`
 }

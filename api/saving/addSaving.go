@@ -5,6 +5,7 @@ import (
 	"pfms/logs"
 	modelsPg "pfms/models/pg"
 	"pfms/utility"
+	"strconv"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,7 +13,6 @@ import (
 )
 
 type requestSaving struct {
-	UserID        uint    `gorm:"not null"`
 	Name          string  `gorm:"not null" json:"name"`
 	TargetAmount  float64 `gorm:"type:decimal(10,2);not null" json:"target_amount"`
 	CurrentSaving float64 `gorm:"type:decimal(10,2);not null" json:"current_saving"`
@@ -26,8 +26,8 @@ func AddSaving(c *fiber.Ctx) error {
 	claims := myUser.Claims.(jwt.MapClaims)
 	userId := claims["user_id"].(string)
 	_ = userId
-	// d, _ := strconv.Atoi(userId)
-	// userIdUint := uint(d)
+	d, _ := strconv.Atoi(userId)
+	userIdUint := uint(d)
 
 	//CheckInput
 	if err := c.BodyParser(reqSaving); err != nil {
@@ -42,6 +42,7 @@ func AddSaving(c *fiber.Ctx) error {
 	}
 
 	resSaving := modelsPg.Saving{
+		UserId:          userIdUint,
 		Name:            reqSaving.Name,
 		TargetAmount:    reqSaving.TargetAmount,
 		CurrentSaving:   reqSaving.CurrentSaving,
@@ -49,7 +50,7 @@ func AddSaving(c *fiber.Ctx) error {
 		RemainingAmount: reqSaving.TargetAmount - reqSaving.CurrentSaving,
 	}
 
-	if err := db.Where("name = ?", reqSaving.Name).FirstOrCreate(&resSaving).Error; err != nil {
+	if err := db.Where("name = ? and user_id = ?", reqSaving.Name, userId).FirstOrCreate(&resSaving).Error; err != nil {
 		logs.Error(err)
 		return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
 	}
