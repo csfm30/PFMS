@@ -1,6 +1,7 @@
 package saving
 
 import (
+	"fmt"
 	"pfms/database"
 	"pfms/logs"
 	modelsPg "pfms/models/pg"
@@ -40,6 +41,7 @@ func UpdateSaving(c *fiber.Ctx) error {
 	if reqSaving.Name == "" && pointerCurrentSaving == nil {
 		return utility.ResponseError(c, fiber.StatusBadRequest, "parameter_missing")
 	}
+	fmt.Println("d")
 
 	resSaving := modelsPg.Saving{}
 	err := db.Where("user_id = ? and name = ?", userIdUint, reqSaving.Name).Find(&resSaving).Error
