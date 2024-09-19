@@ -12,5 +12,6 @@ func setRouteSaving(v1 fiber.Router) {
 
 	savingV1.Post("/add-saving", middleware.AuthJwt(), saving.AddSaving)
 	savingV1.Delete("/delete-saving", middleware.AuthJwt(), saving.DeleteSavingFromName)
+	savingV1.Put("/update-saving", middleware.AuthJwt(), saving.UpdateSaving)
 
 }
