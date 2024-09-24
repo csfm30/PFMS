@@ -95,6 +95,7 @@ func LoginWithUsername(c *fiber.Ctx) error {
 	}
 
 	db.Table("users").Where("id = ?", strconv.Itoa(int(getUser.ID))).Update("access_token", userAccessToken).Update("refresh_token", userRefreshToken)
+	db.Table("users").Where("id = ?", strconv.Itoa(int(getUser.ID))).Update("is_login", "true")
 
 	return utility.ResponseSuccess(c, responseLoginUser)
 

@@ -63,6 +63,9 @@ func AddTransaction(c *fiber.Ctx) error {
 		Amount:            requestAddTransaction.Amount,
 		Date:              time.Now(),
 	}
+
+	utility.ResetAutoIncrement(db, "transactions", "id")
+
 	if err := db.Create(&transactionModel).Error; err != nil {
 		logs.Error(err)
 		return utility.ResponseError(c, fiber.StatusInternalServerError, err.Error())
