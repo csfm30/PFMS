@@ -51,7 +51,7 @@ func UpdateSaving(c *fiber.Ctx) error {
 	}
 
 	resSaving.RemainingAmount = resSaving.RemainingAmount - reqSaving.CurrentSaving
-	resSaving.AmountSaved = resSaving.CurrentSaving + reqSaving.CurrentSaving
+	resSaving.AmountSaved = resSaving.AmountSaved + reqSaving.CurrentSaving
 	resSaving.CurrentSaving = reqSaving.CurrentSaving
 
 	err = db.Model(&modelsPg.Saving{}).Where("user_id = ? and name = ?", userIdUint, reqSaving.Name).Updates(resSaving).Error
