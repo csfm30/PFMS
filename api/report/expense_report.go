@@ -27,7 +27,7 @@ func ExpenseReport(c *fiber.Ctx) error {
 	if err := db.Model(&modelsPg.Transaction{}).
 		Select("expense_categories.name AS category_name, SUM(transactions.amount) AS total_amount").
 		Joins("left join expense_categories ON expense_categories.id = transactions.expense_category_id").
-		Where("transactions.type = ?", "expense").
+		Where("transactions.type = ? and transactions.user_id = ?", "expense", userId).
 		Group("expense_categories.name").
 		Find(&resExpenseReport).Error; err != nil {
 		logs.Error(err)
