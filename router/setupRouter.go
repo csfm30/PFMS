@@ -26,4 +26,6 @@ func SetUpRouter(app *fiber.App) {
 
 	setRouteSaving(v1)
 
+	setRouteReport(v1)
+
 }
