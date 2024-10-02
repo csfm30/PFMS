@@ -2,6 +2,7 @@ package router
 
 import (
 	"pfms/api/account"
+	"pfms/api/script"
 
 	"pfms/middleware"
 
@@ -15,6 +16,8 @@ func SetUpRouter(app *fiber.App) {
 
 	//For test
 	v1.Get("/getAllAccount", middleware.AuthJwt(), account.GetAllAccount)
+
+	v1.Post("/test-notify", script.TestNotify)
 
 	setRouteLogin(v1)
 	setRouteUser(v1)
