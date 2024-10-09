@@ -17,8 +17,8 @@ func SetUpRouter(app *fiber.App) {
 	//For test
 	v1.Get("/getAllAccount", middleware.AuthJwt(), account.GetAllAccount)
 
-	// v1.Post("/test-notify", script.TestNotify)
-	v1.Post("/test-notify", script.TestDiscordNotify)
+	v1.Post("/test-notify", script.TestNotify)
+	// v1.Post("/test-notify", script.TestDiscordNotify)
 
 	setRouteLogin(v1)
 	setRouteUser(v1)

@@ -49,7 +49,7 @@ func TestNotify(c *fiber.Ctx) error {
 		"Content-Type":  writer.FormDataContentType(),
 	}
 
-	url := "https://notify-api.line.me/api/notify"
+	url := viper.GetString("notify.line_url")
 
 	// Make the POST request
 	resp, err := requests.Post(url, headers, &requestBody, 20)

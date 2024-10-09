@@ -6,11 +6,13 @@ import (
 	"fmt"
 	"net/http"
 	"pfms/models"
+
+	"github.com/spf13/viper"
 )
 
 func DiscordNotify(message string) string {
 
-	webhookURL := "https://discord.com/api/webhooks/1293419811128475698/r879xi1q3qMVTBNQQT8ybbu0E_Mw2VkZ2euUItmQWRYL0y_2EM7tdyC5xJdscLp6j154"
+	webhookURL := viper.GetString("notify.discord_url")
 
 	reqMessage := models.WebhookMessage{
 		Content: message,

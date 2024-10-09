@@ -10,6 +10,7 @@ import (
 	"pfms/utility"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/spf13/viper"
 )
 
 func TestDiscordNotify(c *fiber.Ctx) error {
@@ -21,7 +22,7 @@ func TestDiscordNotify(c *fiber.Ctx) error {
 		return utility.ResponseError(c, fiber.StatusBadRequest, err.Error())
 	}
 
-	webhookURL := "https://discord.com/api/webhooks/1293419811128475698/r879xi1q3qMVTBNQQT8ybbu0E_Mw2VkZ2euUItmQWRYL0y_2EM7tdyC5xJdscLp6j154"
+	webhookURL := viper.GetString("notify.discord_url")
 
 	message := new(models.WebhookMessage)
 	message.Content = reqMessage.Message

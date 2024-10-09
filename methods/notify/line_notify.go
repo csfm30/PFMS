@@ -35,7 +35,7 @@ func LineNotify(message string) string {
 		"Content-Type":  writer.FormDataContentType(),
 	}
 
-	url := "https://notify-api.line.me/api/notify"
+	url := viper.GetString("notify.line_url")
 
 	resp, err := requests.Post(url, headers, &requestBody, 20)
 	if err != nil {
