@@ -70,7 +70,7 @@ func ExpenseReport(c *fiber.Ctx) error {
 		}
 		monthName := time.Month(monthInt)
 		message := fmt.Sprintf("Your expense of %s is exceed 20,000 baht", &monthName)
-		notify.LineNotify(message)
+		notify.DiscordNotify(message)
 	}
 	fmt.Println(responseExpenseReport)
 

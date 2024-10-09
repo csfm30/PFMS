@@ -20,20 +20,16 @@ type responseNotify struct {
 
 func LineNotify(message string) string {
 
-	// Create a new buffer to hold the multipart form data
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
 
-	// Add the message field to the form
 	err := writer.WriteField("message", message)
 	if err != nil {
 		logs.Error(err)
 	}
 
-	// Close the writer to finalize the form
 	writer.Close()
 
-	// Set the headers including the Authorization token and Content-Type
 	headers := map[string]string{
 		"Authorization": fmt.Sprintf("Bearer %v", viper.GetString("line.token")),
 		"Content-Type":  writer.FormDataContentType(),
@@ -41,7 +37,6 @@ func LineNotify(message string) string {
 
 	url := "https://notify-api.line.me/api/notify"
 
-	// Make the POST request
 	resp, err := requests.Post(url, headers, &requestBody, 20)
 	if err != nil {
 		logs.Error(err)
